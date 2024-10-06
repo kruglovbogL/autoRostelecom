@@ -13,7 +13,6 @@ from pywinauto.application import Application
 from pywinauto.keyboard import send_keys
 from pywinauto.mouse import click, press
 
-import main
 import window
 from auto_laile import PressKey, ReleaseKey
 from itertools import cycle
@@ -21,7 +20,7 @@ from itertools import cycle
 
 class Button():
     def Cycle(self):
-        image = cv2.imread('D:\Project_University\Auto_rostelecom\image\p.png')
+        image = cv2.imread('D:\Project_University\Auto_rostelecom\image/n.png')
         while True:
             click(button='left', coords=(908, 673)), (
                 click(button='left', coords=(927, 721)))  # coordinate cursor button
@@ -30,10 +29,9 @@ class Button():
             low_red = (45, 45, 255)
             high_red = (45, 45, 255)
             red_error = cv2.inRange(image, low_red, high_red)
-            # cv2.imwrite("output.jpg", only_cat)
-            # cv2.imshow('only car', only_cat)
-            # cv2.waitKey(0)
-            list_button_speed = 0x39
+            cv2.imwrite("output.jpg", red_error)
+            # cv2.imshow('only car', red_error)
+            cv2.waitKey(0)
             total = 0
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -46,23 +44,36 @@ class Button():
             rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
 
-            if len(cnt) > 0:
+            if len(red_error) > 0:
                 time.sleep(1)
-                KEYS = list_button_speed
+                KEYS = 0x39
                 PressKey(KEYS)
                 time.sleep(1)
                 ReleaseKey(KEYS)
                 print('Doneeeeeeeeeeeeeeeee!!!!')
-                # screen = main.Screetake()
-                # screen.screen()
+                screen = window.Screentake()
+                screen.screen()
+
             else:
                 time.sleep(3)
                 print('Error!!!!')
-                screen = window.Screetake()
+                screen = window.Screentake
                 screen.screen()
+
+
 # # img_contou = np.uint8(np.zeros((image.shape[2],edged.shape[1])))
 # # cv2.imshow('countour',img_contou)
 # cv2.imwrite("output.jpg", image)
-#                     cv2.imshow('result', image) # выводим итоговое изображение в окно
-#                     cv2.waitKey()
-#                     cv2.destroyAllWindows()
+#             x1, y1 = 100, 50  # Начало линии
+#             x2, y2 = 300, 350  # Конец линии
+#             line = ((x1, y1), (x2, y2))
+#
+#             # Рисуем линию на изображении
+#             cv2.line(image, line[0], line[1], (255, 0, 0), 2)
+#             cv2.imshow('result', image) # выводим итоговое изображение в окно
+#             cv2.waitKey()
+#             cv2.destroyAllWindows()
+            return red_error
+if __name__ == '__main__':
+    button = Button()
+    button.Cycle()
