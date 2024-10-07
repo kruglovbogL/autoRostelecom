@@ -4,7 +4,7 @@ import pyautogui
 import pygetwindow
 
 import main
-
+import numpy as np
 webbrowser.open('https://rt.habr.io/game')
 time.sleep(10)
 # get screensize
@@ -26,13 +26,14 @@ class Screentake():
         while True:
             buttons = main.Button()
             but = buttons.Cycle()
-            if len(but) > 0:
+            if len(np.array(but)) >  0:
                                                 # save screenshot
                 p = pyautogui.screenshot()
                 p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
                 print('Screen!!!!')
                 time.sleep(10)
-
+            else:
+                print('NONEEEEEEEEEEEEEEEEEE!')
                                 #class example
 if __name__ == '__main__':
     screen = Screentake()

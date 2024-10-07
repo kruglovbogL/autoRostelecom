@@ -51,8 +51,9 @@ class Button():
                 time.sleep(1)
                 ReleaseKey(KEYS)
                 print('Doneeeeeeeeeeeeeeeee!!!!')
-                screen = window.Screentake()
-                screen.screen()
+                p = pyautogui.screenshot()
+                p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
+                print('Screen!!!!')
 
             else:
                 time.sleep(3)
@@ -60,20 +61,20 @@ class Button():
                 screen = window.Screentake
                 screen.screen()
 
+#найти пересечние контура и линии на скриншоте
 
 # # img_contou = np.uint8(np.zeros((image.shape[2],edged.shape[1])))
 # # cv2.imshow('countour',img_contou)
 # cv2.imwrite("output.jpg", image)
-#             x1, y1 = 100, 50  # Начало линии
-#             x2, y2 = 300, 350  # Конец линии
-#             line = ((x1, y1), (x2, y2))
-#
-#             # Рисуем линию на изображении
-#             cv2.line(image, line[0], line[1], (255, 0, 0), 2)
-#             cv2.imshow('result', image) # выводим итоговое изображение в окно
-#             cv2.waitKey()
-#             cv2.destroyAllWindows()
-            return red_error
+            x1, y1 = 100, 50  # Начало линии
+            x2, y2 = 300, 350  # Конец линии
+            line = ((x1, y1), (x2, y2))
+
+            # Рисуем линию на изображении
+            cv2.line(image, line[0], line[1], (255, 0, 0), 2)
+            cv2.imshow('result', image) # выводим итоговое изображение в окно
+            cv2.waitKey()
+            cv2.destroyAllWindows()
 if __name__ == '__main__':
     button = Button()
     button.Cycle()

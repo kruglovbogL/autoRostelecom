@@ -1,5 +1,4 @@
 import main
-import window
 
 
 class Start():
@@ -7,8 +6,8 @@ class Start():
         while True:
             button = main.Button()
             button.Cycle()
-            screen = window.Screentake()
-            screen.screen()
+            # screen = window.Screentake()
+            # screen.screen()
 
 
 if __name__ == '__main__':
