@@ -45,7 +45,7 @@ class Button():
             cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
 
             if len(red_error) > 0:
-                time.sleep(1)
+                time.sleep(4)
                 KEYS = 0x39
                 PressKey(KEYS)
                 time.sleep(1)
