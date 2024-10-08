@@ -16,50 +16,72 @@ from pywinauto.mouse import click, press
 import window
 from auto_laile import PressKey, ReleaseKey
 from itertools import cycle
+import pyautogui
+import threading
 
+def locate_cat():
+    cat=None
+    while cat is None:
+        cat = pyautogui.locateOnScreen('D:/Project_University/Auto_rostelecom/image/n.png',confidence=.65,region=(1722,748, 200,450))
+        return cat
+
+def screenShot():
+    p = pyautogui.screenshot()
+    p.save(r'D:/Project_University/Auto_rostelecom/image/n.png')
+    print('Screen!!!!')
+
+def jump():
+    KEYS = 0x39
+    PressKey(KEYS)
+    time.sleep(2)
+    ReleaseKey(KEYS)
+    print('Done!!!!!!!')
+
+def clicked():
+    click(button='left', coords=(908, 673)), (
+        click(button='left', coords=(927, 721)))  # coordinate cursor button
+    click(button='left', coords=(939, 590)), (
+        click(button='left', coords=(846, 712)))  # coordinate cursor button
 
 class Button():
     def Cycle(self):
-        image = cv2.imread('D:\Project_University\Auto_rostelecom\image/n.png')
+
         while True:
-            click(button='left', coords=(908, 673)), (
-                click(button='left', coords=(927, 721)))  # coordinate cursor button
-            click(button='left', coords=(939, 590)), (
-                click(button='left', coords=(846, 712)))  # coordinate cursor button
-            low_red = (45, 45, 255)
-            high_red = (45, 45, 255)
-            red_error = cv2.inRange(image, low_red, high_red)
-            cv2.imwrite("output.jpg", red_error)
-            # cv2.imshow('only car', red_error)
-            cv2.waitKey(0)
-            total = 0
+            clicked()
+            image = cv2.imread('D:/Project_University/Auto_rostelecom/image/n.png')
+            # low_red = (45, 45, 255)
+            # high_red = (45, 45, 255)
+            # red_error = cv2.inRange(image, low_red, high_red)
+            # cv2.imwrite("output.jpg", red_error)
+            # # cv2.imshow('only car', red_error)
+            # cv2.waitKey(0)
+            # total = 0
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            cnts = cv2.findContours(gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            cnts = cnts[0] if len(cnts) == 2 else cnts[1]
 
-            blur = cv2.GaussianBlur(gray, (11, 11), 0)
-            canny = cv2.Canny(blur, 30, 150, 3)
-            dilated = cv2.dilate(canny, (1, 1), iterations=0)
+            for c in cnts:
+                x, y, w, h = cv2.boundingRect(c)
+                ROI = image[y:y + h, x:x + w]
+                cv2.imwrite("output.jpg", ROI)
 
-            (cnt, hierarchy) = cv2.findContours(
-                dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
 
-            if len(red_error) > 0:
-                time.sleep(4)
-                KEYS = 0x39
-                PressKey(KEYS)
-                time.sleep(1)
-                ReleaseKey(KEYS)
-                print('Doneeeeeeeeeeeeeeeee!!!!')
-                p = pyautogui.screenshot()
-                p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
-                print('Screen!!!!')
+            # blur = cv2.GaussianBlur(gray, (11, 11), 0)
+            # canny = cv2.Canny(blur, 30, 150, 3)
+            # dilated = cv2.dilate(canny, (1, 1), iterations=0)
+            #
+            # (cnt, hierarchy) = cv2.findContours(
+            #     dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            # cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
 
-            else:
-                time.sleep(3)
-                print('Error!!!!')
-                screen = window.Screentake
-                screen.screen()
+            if len(c) > 0:
+                screenShot()
+                jump()
+                screenShot()
+            break
+
+            #
 
 #найти пересечние контура и линии на скриншоте
 
@@ -72,6 +94,7 @@ class Button():
 
             # Рисуем линию на изображении
             cv2.line(image, line[0], line[1], (255, 0, 0), 2)
+            cv2.imwrite('output.png', image)
             cv2.imshow('result', image) # выводим итоговое изображение в окно
             cv2.waitKey()
             cv2.destroyAllWindows()
