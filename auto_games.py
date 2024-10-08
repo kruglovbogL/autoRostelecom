@@ -1,5 +1,5 @@
 import main
-
+import window
 
 class Start():
     def Next(self):

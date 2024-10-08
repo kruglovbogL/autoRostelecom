@@ -21,23 +21,23 @@ z1 = pygetwindow.getAllTitles()
 time.sleep(1)
 print(len(z1))
 
-class Screentake():
-    def screen(self):
-        while True:
-            buttons = main.Button()
-            but = buttons.Cycle()
-            if len(np.array(but)) >  0:
-                                                # save screenshot
-                p = pyautogui.screenshot()
-                p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
-                print('Screen!!!!')
-                time.sleep(10)
-            else:
-                print('NONEEEEEEEEEEEEEEEEEE!')
-                                #class example
-if __name__ == '__main__':
-    screen = Screentake()
-    screen.screen()
+# class Screentake():
+#     def screen(self):
+#         while True:
+#             buttons = main.Button()
+#             but = buttons.Cycle()
+#             if len(np.array(but)) >  0:
+#                                                 # save screenshot
+#                 p = pyautogui.screenshot()
+#                 p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
+#                 print('Screen!!!!')
+#                 time.sleep(10)
+#             else:
+#                 print('NONEEEEEEEEEEEEEEEEEE!')
+#                                 #class example
+# if __name__ == '__main__':
+    # screen = Screentake()
+    # screen.screen()
 
 
 
