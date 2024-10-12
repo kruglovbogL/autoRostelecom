@@ -1,0 +1,332 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import webbrowser\r\nfrom contextlib import redirect_stdout\r\nimport pygetwindow\r\nimport time\r\nimport os\r\nimport pyautogui\r\nfrom PIL import ImageGrab\r\nimport imutils\r\nimport cv2\r\nfrom matplotlib import pyplot as plt\r\nimport numpy as np\r\nfrom pywinauto.application import Application\r\nfrom pywinauto.keyboard import send_keys\r\nfrom pywinauto.mouse import click, press\r\n\r\nimport window\r\nfrom auto_laile import PressKey, ReleaseKey\r\nfrom itertools import cycle\r\nimport pyautogui\r\nimport threading\r\n\r\ndef locate_cat():\r\n    cat=None\r\n    while cat is None:\r\n        cat = pyautogui.locateOnScreen('D:/Project_University/Auto_rostelecom/image/n.png',confidence=.65,region=(1722,748, 200,450))\r\n        return cat\r\n\r\ndef screenShot():\r\n    pass\r\n    p = pyautogui.screenshot()\r\n    # screenshot = ImageGrab.grab()\r\n    p.save(r'D:/Project_University/Auto_rostelecom/image/n.png')\r\n    print('Screen!!!!')\r\n\r\ndef jump():\r\n    KEYS = 0x39\r\n    PressKey(KEYS)\r\n    time.sleep(1)\r\n    ReleaseKey(KEYS)\r\n    print('Done!!!!!!!')\r\n\r\ndef clicked():\r\n    click(button='left', coords=(908, 673)), (\r\n        click(button='left', coords=(927, 721)))  # coordinate cursor button\r\n    click(button='left', coords=(939, 590)), (\r\n        click(button='left', coords=(846, 712)))  # coordinate cursor button\r\n\r\nclass Button():\r\n    def Cycle(self):\r\n\r\n        while True:\r\n            clicked()\r\n            # Задаем координаты пикселя, который хотим найти\r\n            x = 845\r\n            y = 763\r\n            # Получаем цвет пикселя на заданных координатах\r\n            screenShot()\r\n            image_path = 'D:/Project_University/Auto_rostelecom/image/n.png'\r\n            image = cv2.imread(image_path)\r\n            if image is None:\r\n                raise ValueError(\"Не удалось загрузить изображение. Проверьте путь.\")\r\n\r\n            # Получаем размеры изображения\r\n            height, width, _ = image.shape\r\n\r\n            # Определяем размеры фрагмента (например, 100x100 пикселей)\r\n            fragment_size = 125\r\n\r\n            # Вычисляем координаты центрального фрагмента\r\n            start_x = (width - fragment_size) // 2 - 72\r\n            start_y = (height - fragment_size) // 2 + 230\r\n\r\n            # Вырезаем фрагмент изображения\r\n            fragment = image[start_y:start_y + fragment_size, start_x:start_x + fragment_size]\r\n\r\n            # Преобразуем его в массив NumPy\r\n            # fragment_array = np.array(fragment)\r\n            # enemy = np.load('test3.npy')\r\n            # gray = cv2.cvtColor(fragment, cv2.COLOR_BGR2GRAY)\r\n            #\r\n            # blur = cv2.GaussianBlur(gray, (11, 11), 0)\r\n            # canny = cv2.Canny(blur, 30, 150, 3)\r\n            # dilated = cv2.dilate(canny, (1, 1), iterations=0)\r\n            #\r\n            # (cnt, hierarchy) = cv2.findContours(\r\n            #     dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)\r\n            # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\r\n            # countour = cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)\r\n            low_red = (45, 45, 255)\r\n            high_red = (45, 45, 255)\r\n            red_error = cv2.inRange(fragment, low_red, high_red)\r\n            cv2.imwrite(\"output.jpg\", red_error)\r\n            cv2.imshow('countour',red_error)\r\n            a = np.array(red_error)\r\n            # np.save('test1.txt.npy', a)\r\n            load = np.load('test1.txt.npy')\r\n            # cv2.waitKey(0)\r\n            # cv2.destroyAllWindows()\r\n\r\n            if (load == a).all():\r\n            #     # with open('lg.txt', 'w') as f, redirect_stdout(f):\r\n            #     #     # pixel_color = screenShot().getpixel((x, y))\r\n            #     #     print(f\"Цвет пикселя на позиции ({x}, {y}): {pixel_color}\")\r\n                jump()\r\n                screenShot()\r\n            # # Отображаем фрагмент\r\n            # else:\r\n            #     #Print(f\"Цвет пикселя на позиции ({x}, {y}): {pixel_color}\", file=f)\r\n            #     screenShot()\r\n            #     # time.sleep(1)\r\n            # # Выводим массив NumPy\r\n            # # pri nt(fragment_array)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n            # dilated = cv2.dilate(canny, (1, 1), iterations=0)\r\n            #\r\n            # (cnt, hierarchy) = cv2.findContours(\r\n            #     dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)\r\n            # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\r\n            # cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)\r\n\r\n            # if len(c) > 0:\r\n            #     screenShot()\r\n            #     jump()\r\n            #     screenShot()\r\n            # break\r\n\r\n            #\r\n\r\n#найти пересечние контура и линии на скриншоте\r\n\r\n# # img_contou = np.uint8(np.zeros((image.shape[2],edged.shape[1])))\r\n# # cv2.imshow('countour',img_contou)\r\n# cv2.imwrite(\"output.jpg\", image)\r\n#             x1, y1 = 100, 50  # Начало линии\r\n#             x2, y2 = 300, 350  # Конец линии\r\n#             line = ((x1, y1), (x2, y2))\r\n#\r\n#             # Рисуем линию на изображении\r\n#             cv2.line(image, line[0], line[1], (255, 0, 0), 2)\r\n#             cv2.imwrite('output.png', image)\r\n\r\n            # cv2.waitKey()\r\n            # cv2.destroyAllWindows()\r\nif __name__ == '__main__':\r\n    button = Button()\r\n    button.Cycle()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision f6c45a0888b8c547c7068b03a37605854aec6374)
++++ b/main.py	(date 1728759554000)
+@@ -1,43 +1,21 @@
+ import webbrowser
+ from contextlib import redirect_stdout
+-import pygetwindow
+-import time
+-import os
++
++import numpy as np
+ import pyautogui
++import pywinauto.keyboard
+ from PIL import ImageGrab
+-import imutils
+ import cv2
+-from matplotlib import pyplot as plt
+-import numpy as np
+-from pywinauto.application import Application
++from pynput.keyboard import Key, Controller
++from pywinauto.mouse import click, press
+ from pywinauto.keyboard import send_keys
+-from pywinauto.mouse import click, press
+-
+-import window
+-from auto_laile import PressKey, ReleaseKey
+-from itertools import cycle
+-import pyautogui
+-import threading
++from auto_laile import ReleaseKey,PressKey
++import time
++game_coords = [948, 752,1352, 753]
+ 
+-def locate_cat():
+-    cat=None
+-    while cat is None:
+-        cat = pyautogui.locateOnScreen('D:/Project_University/Auto_rostelecom/image/n.png',confidence=.65,region=(1722,748, 200,450))
+-        return cat
+-
+-def screenShot():
+-    pass
+-    p = pyautogui.screenshot()
+-    # screenshot = ImageGrab.grab()
+-    p.save(r'D:/Project_University/Auto_rostelecom/image/n.png')
+-    print('Screen!!!!')
+-
+-def jump():
+-    KEYS = 0x39
+-    PressKey(KEYS)
+-    time.sleep(1)
+-    ReleaseKey(KEYS)
+-    print('Done!!!!!!!')
++def open_browser():
++    webbrowser.open('https://rt.habr.io/game')
++    time.sleep(3)
+ 
+ def clicked():
+     click(button='left', coords=(908, 673)), (
+@@ -45,113 +23,36 @@
+     click(button='left', coords=(939, 590)), (
+         click(button='left', coords=(846, 712)))  # coordinate cursor button
+ 
+-class Button():
+-    def Cycle(self):
++def jump():
++    # pyautogui.press('space')
++    # time.sleep(0.1)  # Небольшая задержка между нажатиями
++    keyboard = Controller()
++    keyboard.press(Key.space)
++    time.sleep(1)
++    keyboard.release(Key.space)
++    # KEYS = 0x39
++    # PressKey(KEYS)
++    # time.sleep(0.1)
++    # ReleaseKey(KEYS)
++    # time.sleep(1)
++    # with open('log.txt', 'a') as f, redirect_stdout(f):
++    #     print('Done!!!!!!!',file=f)
+ 
++class Auto_Game():
++    def auto_game(self):
+         while True:
+             clicked()
+-            # Задаем координаты пикселя, который хотим найти
+-            x = 845
+-            y = 763
+-            # Получаем цвет пикселя на заданных координатах
+-            screenShot()
+-            image_path = 'D:/Project_University/Auto_rostelecom/image/n.png'
+-            image = cv2.imread(image_path)
+-            if image is None:
+-                raise ValueError("Не удалось загрузить изображение. Проверьте путь.")
+-
+-            # Получаем размеры изображения
+-            height, width, _ = image.shape
+-
+-            # Определяем размеры фрагмента (например, 100x100 пикселей)
+-            fragment_size = 125
+-
+-            # Вычисляем координаты центрального фрагмента
+-            start_x = (width - fragment_size) // 2 - 72
+-            start_y = (height - fragment_size) // 2 + 230
+-
+-            # Вырезаем фрагмент изображения
+-            fragment = image[start_y:start_y + fragment_size, start_x:start_x + fragment_size]
+-
+-            # Преобразуем его в массив NumPy
+-            # fragment_array = np.array(fragment)
+-            # enemy = np.load('test3.npy')
+-            # gray = cv2.cvtColor(fragment, cv2.COLOR_BGR2GRAY)
+-            #
+-            # blur = cv2.GaussianBlur(gray, (11, 11), 0)
+-            # canny = cv2.Canny(blur, 30, 150, 3)
+-            # dilated = cv2.dilate(canny, (1, 1), iterations=0)
+-            #
+-            # (cnt, hierarchy) = cv2.findContours(
+-            #     dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+-            # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+-            # countour = cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
+-            low_red = (45, 45, 255)
+-            high_red = (45, 45, 255)
+-            red_error = cv2.inRange(fragment, low_red, high_red)
+-            cv2.imwrite("output.jpg", red_error)
+-            cv2.imshow('countour',red_error)
+-            a = np.array(red_error)
+-            # np.save('test1.txt.npy', a)
+-            load = np.load('test1.txt.npy')
+-            # cv2.waitKey(0)
+-            # cv2.destroyAllWindows()
+-
+-            if (load == a).all():
+-            #     # with open('lg.txt', 'w') as f, redirect_stdout(f):
+-            #     #     # pixel_color = screenShot().getpixel((x, y))
+-            #     #     print(f"Цвет пикселя на позиции ({x}, {y}): {pixel_color}")
++            screen = np.array(ImageGrab.grab(bbox=game_coords))
++            low_red = (255,45,45)
++            high_red = (255,45,45)
++            red_error = cv2.inRange(screen, low_red,high_red)
++            # print(red_error)
++            if (red_error[0] == 255).any():
+                 jump()
+-                screenShot()
+-            # # Отображаем фрагмент
+-            # else:
+-            #     #Print(f"Цвет пикселя на позиции ({x}, {y}): {pixel_color}", file=f)
+-            #     screenShot()
+-            #     # time.sleep(1)
+-            # # Выводим массив NumPy
+-            # # pri nt(fragment_array)
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-            # dilated = cv2.dilate(canny, (1, 1), iterations=0)
+-            #
+-            # (cnt, hierarchy) = cv2.findContours(
+-            #     dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+-            # rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+-            # cv2.drawContours(rgb, cnt, -1, (0, 255, 0), 2)
+-
+-            # if len(c) > 0:
+-            #     screenShot()
+-            #     jump()
+-            #     screenShot()
+-            # break
+-
+-            #
+-
+-#найти пересечние контура и линии на скриншоте
++            else:
++                time.sleep(0.1)
+ 
+-# # img_contou = np.uint8(np.zeros((image.shape[2],edged.shape[1])))
+-# # cv2.imshow('countour',img_contou)
+-# cv2.imwrite("output.jpg", image)
+-#             x1, y1 = 100, 50  # Начало линии
+-#             x2, y2 = 300, 350  # Конец линии
+-#             line = ((x1, y1), (x2, y2))
+-#
+-#             # Рисуем линию на изображении
+-#             cv2.line(image, line[0], line[1], (255, 0, 0), 2)
+-#             cv2.imwrite('output.png', image)
+-
+-            # cv2.waitKey()
+-            # cv2.destroyAllWindows()
+ if __name__ == '__main__':
+-    button = Button()
+-    button.Cycle()
++    open_browser()
++    button = Auto_Game()
++    button.auto_game()
+Index: test.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import cv2\r\nimport numpy as np\r\nfrom tempfile import TemporaryFile\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n# Загрузка изображения\r\nimage_path = 'D:/Project_University/Auto_rostelecom/target.png'\r\nimage = cv2.imread(image_path)\r\n\r\n# Проверка, загрузилось ли изображение\r\nif image is None:\r\n    raise ValueError(\"Не удалось загрузить изображение. Проверьте путь.\")\r\n\r\n# Получаем размеры изображения\r\nheight, width, _ = image.shape\r\n\r\n# Определяем размеры фрагмента (например, 100x100 пикселей)\r\nfragment_size = 125\r\n\r\n# Вычисляем координаты центрального фрагмента\r\nstart_x = (width - fragment_size) // 2 - 72\r\nstart_y = (height - fragment_size) // 2 + 230\r\n\r\n# Вырезаем фрагмент изображения\r\nfragment = image[start_y:start_y + fragment_size, start_x:start_x + fragment_size]\r\n\r\n# Преобразуем его в массив NumPy\r\nfragment_array = np.array(fragment)\r\nnp.save('test3.npy',fragment_array)    # .npy extension is added if not given\r\nd = np.load('test3.npy')\r\nprint(d)\r\n# print(fragment_array == d)\r\n# array([ True,  True,  True,  True], dtype=bool)\r\n\r\n\r\n\r\nprint(len(fragment_array))\r\n\r\n\r\n\r\n# with open('file.txt','a')as f:\r\n#     print(fragment_array, file=f)\r\n\r\n# if fragment_array == enemy:\r\n#     pass\r\n# Отображаем фрагмент\r\ncv2.imshow('Fragment', fragment)\r\ncv2.waitKey(0)\r\ncv2.destroyAllWindows()\r\n\r\n# Выводим массив NumPy\r\nprint(fragment_array)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/test.py b/test.py
+--- a/test.py	(revision f6c45a0888b8c547c7068b03a37605854aec6374)
++++ b/test.py	(date 1728758288944)
+@@ -2,58 +2,61 @@
+ import numpy as np
+ from tempfile import TemporaryFile
+ 
+-
+-
+-
+-
+-
+-
++import pyautogui
++from pywinauto import keyboard
+ 
++while True:
++    pyautogui.hotkey('space')
+ 
+-# Загрузка изображения
+-image_path = 'D:/Project_University/Auto_rostelecom/target.png'
+-image = cv2.imread(image_path)
+ 
+-# Проверка, загрузилось ли изображение
+-if image is None:
+-    raise ValueError("Не удалось загрузить изображение. Проверьте путь.")
+-
+-# Получаем размеры изображения
+-height, width, _ = image.shape
+-
+-# Определяем размеры фрагмента (например, 100x100 пикселей)
+-fragment_size = 125
+-
+-# Вычисляем координаты центрального фрагмента
+-start_x = (width - fragment_size) // 2 - 72
+-start_y = (height - fragment_size) // 2 + 230
+-
+-# Вырезаем фрагмент изображения
+-fragment = image[start_y:start_y + fragment_size, start_x:start_x + fragment_size]
+-
+-# Преобразуем его в массив NumPy
+-fragment_array = np.array(fragment)
+-np.save('test3.npy',fragment_array)    # .npy extension is added if not given
+-d = np.load('test3.npy')
+-print(d)
+-# print(fragment_array == d)
+-# array([ True,  True,  True,  True], dtype=bool)
+-
+-
+-
+-print(len(fragment_array))
+-
+-
+-
+-# with open('file.txt','a')as f:
+-#     print(fragment_array, file=f)
+-
+-# if fragment_array == enemy:
+-#     pass
+-# Отображаем фрагмент
+-cv2.imshow('Fragment', fragment)
+-cv2.waitKey(0)
+-cv2.destroyAllWindows()
+-
+-# Выводим массив NumPy
+-print(fragment_array)
+\ No newline at end of file
++#
++#
++#
++#
++# # Загрузка изображения
++# image_path = 'D:/Project_University/Auto_rostelecom/target.png'
++# image = cv2.imread(image_path)
++#
++# # Проверка, загрузилось ли изображение
++# if image is None:
++#     raise ValueError("Не удалось загрузить изображение. Проверьте путь.")
++#
++# # Получаем размеры изображения
++# height, width, _ = image.shape
++#
++# # Определяем размеры фрагмента (например, 100x100 пикселей)
++# fragment_size = 125
++#
++# # Вычисляем координаты центрального фрагмента
++# start_x = (width - fragment_size) // 2 - 72
++# start_y = (height - fragment_size) // 2 + 230
++#
++# # Вырезаем фрагмент изображения
++# fragment = image[start_y:start_y + fragment_size, start_x:start_x + fragment_size]
++#
++# # Преобразуем его в массив NumPy
++# fragment_array = np.array(fragment)
++# np.save('test3.npy',fragment_array)    # .npy extension is added if not given
++# d = np.load('test3.npy')
++# print(d)
++# # print(fragment_array == d)
++# # array([ True,  True,  True,  True], dtype=bool)
++#
++#
++#
++# print(len(fragment_array))
++#
++#
++#
++# # with open('file.txt','a')as f:
++# #     print(fragment_array, file=f)
++#
++# # if fragment_array == enemy:
++# #     pass
++# # Отображаем фрагмент
++# cv2.imshow('Fragment', fragment)
++# cv2.waitKey(0)
++# cv2.destroyAllWindows()
++#
++# # Выводим массив NumPy
++# print(fragment_array)
+\ No newline at end of file

@@ -1,0 +1,102 @@
+Index: modules/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import cv2\r\nimport pyautogui\r\nimport time\r\nimport random\r\n\r\nimport pytesseract\r\nfrom PIL import ImageGrab, Image\r\n\r\n\r\ndef get_img():\r\n    left, top, right, bottom = 1201,285, 1339, 315\r\n    screenshot = ImageGrab.grab(bbox=(left, top, right, bottom))\r\n    print('Screen!!!!')\r\n    screen_shot = screenshot.save(\"test.png\")\r\n    return screen_shot\r\n    # p.save(\"D:/Project_University/Auto_rostelecom/image/n.png\")\r\n\r\n    # region = (1208, 278, 1199, 0)\r\n    # p = pyautogui.screenshot(region=region)\r\n    # p.save(r'D:\\Project_University\\Auto_rostelecom/image/test.png')\r\n    # print('Screen!!!!')\r\n\r\n\r\ndef get_score():\r\n    get_img()\r\n    # Эта функция должна возвращать количество очков с экрана.\r\n    # В данном примере просто возвращаем случайное число\r\n    # В реальной жизни вы должны использовать OCR или другой метод для получения очков\r\n    # image = Image.open('test.jpg')\r\n    img = cv2.imread('test.png')\r\n    # imgs = cv2.resize(img, None, fx=9, fy=9)  # Увеличение изображения в 9 раз\r\n    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\r\n\r\n    blur = cv2.GaussianBlur(gray, (11, 11), 0)\r\n    canny = cv2.Canny(blur, 30, 150, 3)\r\n    pytesseract.pytesseract.tesseract_cmd = r'D:\\Program Files\\Tesseract-OCR\\tesseract.exe'\r\n    score = pytesseract.image_to_string(canny,config='outputbase digits')\r\n    return print(score)\r\n\r\n# def press_space_based_on_score(score):\r\n#     # Пример логики, основанной на количестве очков\r\n#     int_score = int(score)\r\n#     if int_score > 70:\r\n#         # Если количество очков больше 70, нажимаем пробел 3 раза\r\n#         for _ in range(3):\r\n#             pyautogui.press('space')\r\n#             time.sleep(0.1)  # Небольшая задержка между нажатиями\r\n#     elif int_score > 40:\r\n#         # Если количество очков больше 40, нажимаем пробел 2 раза\r\n#         for _ in range(2):\r\n#             pyautogui.press('space')\r\n#             time.sleep(0.1)\r\n#     elif int_score > 0:\r\n#         # Если количество очков больше 0, нажимаем пробел 1 раз\r\n#         pyautogui.press('space')\r\n#\r\nif __name__ == \"__main__\":\r\n    while True:\r\n        screen = get_img()\r\n        score = get_score()\r\n        print(f\"Текущие очки: {score}\")\r\n        # press_space_based_on_score(score)\r\n        # time.sleep(1)  # Задержка перед следующим проверкой
+===================================================================
+diff --git a/modules/main.py b/modules/main.py
+--- a/modules/main.py	(revision edb099675891eeaee94768c38bdba708f76006c9)
++++ b/modules/main.py	(date 1728598678224)
+@@ -1,4 +1,5 @@
+ import cv2
++import numpy as np
+ import pyautogui
+ import time
+ import random
+@@ -8,11 +9,10 @@
+ 
+ 
+ def get_img():
+-    left, top, right, bottom = 1201,285, 1339, 315
++    left, top, right, bottom = 1307,280, 1342, 315
+     screenshot = ImageGrab.grab(bbox=(left, top, right, bottom))
+     print('Screen!!!!')
+-    screen_shot = screenshot.save("test.png")
+-    return screen_shot
++    return screenshot.save("test.png")
+     # p.save("D:/Project_University/Auto_rostelecom/image/n.png")
+ 
+     # region = (1208, 278, 1199, 0)
+@@ -22,42 +22,47 @@
+ 
+ 
+ def get_score():
+-    get_img()
+     # Эта функция должна возвращать количество очков с экрана.
+     # В данном примере просто возвращаем случайное число
+     # В реальной жизни вы должны использовать OCR или другой метод для получения очков
+     # image = Image.open('test.jpg')
+     img = cv2.imread('test.png')
+     # imgs = cv2.resize(img, None, fx=9, fy=9)  # Увеличение изображения в 9 раз
++
++    # Преобразование в серый цвет
+     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+ 
+-    blur = cv2.GaussianBlur(gray, (11, 11), 0)
+-    canny = cv2.Canny(blur, 30, 150, 3)
+-    pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'
+-    score = pytesseract.image_to_string(canny,config='outputbase digits')
+-    return print(score)
++    # # # Удаление шума
++    # # denoised = cv2.GaussianBlur(gray, (5, 5), 0)
++    # #
++    # # # Бинаризация
++    # # thresh = cv2.threshold(denoised, 150, 255, cv2.THRESH_BINARY)[1]
++    # pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'
++    # score = pytesseract.image_to_string(gray,config='outputbase digits')
++    numpy_img = np.array(gray)
++    print(numpy_img.size)
++    score = numpy_img.size
++    return score
+ 
+-# def press_space_based_on_score(score):
+-#     # Пример логики, основанной на количестве очков
+-#     int_score = int(score)
+-#     if int_score > 70:
+-#         # Если количество очков больше 70, нажимаем пробел 3 раза
+-#         for _ in range(3):
+-#             pyautogui.press('space')
+-#             time.sleep(0.1)  # Небольшая задержка между нажатиями
+-#     elif int_score > 40:
+-#         # Если количество очков больше 40, нажимаем пробел 2 раза
+-#         for _ in range(2):
+-#             pyautogui.press('space')
+-#             time.sleep(0.1)
+-#     elif int_score > 0:
+-#         # Если количество очков больше 0, нажимаем пробел 1 раз
+-#         pyautogui.press('space')
+-#
++def press_space_based_on_score(score):
++    # Пример логики, основанной на количестве очков
++    int_score = int(score)
++    if int_score > 1000:
++        # Если количество очков больше 1000, нажимаем пробел 3 раза
++        for _ in range(3):
++            pyautogui.press('space')
++            time.sleep(0.1)  # Небольшая задержка между нажатиями
++    elif int_score > 1200:
++        # Если количество очков больше 40, нажимаем пробел 2 раза
++        for _ in range(2):
++            pyautogui.press('space')
++            time.sleep(0.1)
++    elif int_score == 0:
++        # Если количество очков больше 0, нажимаем пробел 1 раз
++        pyautogui.press('space')
++
+ if __name__ == "__main__":
+     while True:
+         screen = get_img()
+         score = get_score()
+         print(f"Текущие очки: {score}")
+-        # press_space_based_on_score(score)
+-        # time.sleep(1)  # Задержка перед следующим проверкой
+\ No newline at end of file
