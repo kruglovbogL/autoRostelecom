@@ -24,15 +24,15 @@ def clicked():
 def jump():
     # pyautogui.press('space')
     # time.sleep(0.1)  # Небольшая задержка между нажатиями
-    keyboard = Controller()        #load class Controller
-    keyboard.press(Key.space)      #press Key
-    time.sleep(1)                  #sleep
-    keyboard.release(Key.space)    #release key
-    # KEYS = 0x39                          '''alternative
-    # PressKey(KEYS)                          keys
-    # time.sleep(0.1)                         insert
-    # ReleaseKey(KEYS)                        game
-    # time.sleep(1)                        '''
+    # keyboard = Controller()        #load class Controller
+    # keyboard.press(Key.space)      #press Key
+    # time.sleep(1)                  #sleep
+    # keyboard.release(Key.space)    #release key
+    KEYS = 0x39                            #alternative
+    PressKey(KEYS)                         #  keys
+    time.sleep(1)                        # insert
+    ReleaseKey(KEYS)                       # game
+    time.sleep(1)                          #sleep
     # with open('log.txt', 'a') as f, redirect_stdout(f):   #save output in log files
     #     print('Done!!!!!!!',file=f)
 
@@ -40,6 +40,7 @@ class Auto_Game():
     def auto_clicked(self):
         while True:
             clicked()              #click def mouse
+            time.sleep(5)
     def auto_game(self):
         while True:
             screen = np.array(ImageGrab.grab(bbox=game_coord))    #np.array screenshot
@@ -50,12 +51,13 @@ class Auto_Game():
             # cv2.imwrite('output.jpg',red_error)     #write img in files
             # cv2.destroyAllWindows()                 #close window
             # print(red_error)                        #check array
-            if (red_error[0] == 255).any():
+            if (max(red_error[0])==255).any():
                 jump()                                #jump def button
             else:
                 time.sleep(0.1)                       #sleeping
 
-if __name__ == '__main__':                            #start
+if __name__ == '__main__':
     open_browser()                                    #def browser
-    button = Auto_Game()                              #class Auto_Game()
-    button.auto_game()                                #Auto_Game.auto_game()
+    button = Auto_Game()                           #class Auto_Game()
+    button.auto_clicked()                          # click while
+    button.auto_game()                               #Auto_Game.auto_game()
