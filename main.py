@@ -22,14 +22,14 @@ import threading
 def locate_cat():
     cat=None
     while cat is None:
-        cat = pyautogui.locateOnScreen('D:/Project_University/Auto_rostelecom/image/n.png',confidence=.65,region=(1722,748, 200,450))
+        cat = pyautogui.locateOnScreen('image/n.png',confidence=.65,region=(1722,748, 200,450))
         return cat
 
 def screenShot():
     pass
     p = pyautogui.screenshot()
     # screenshot = ImageGrab.grab()
-    p.save(r'D:/Project_University/Auto_rostelecom/image/n.png')
+    p.save(r'image/n.png')
     print('Screen!!!!')
 
 def jump():
@@ -55,7 +55,7 @@ class Button():
             y = 763
             # Получаем цвет пикселя на заданных координатах
             screenShot()
-            image_path = 'D:/Project_University/Auto_rostelecom/image/n.png'
+            image_path = 'image/n.png'
             image = cv2.imread(image_path)
             if image is None:
                 raise ValueError("Не удалось загрузить изображение. Проверьте путь.")
