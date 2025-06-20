@@ -33,7 +33,7 @@ def get_score():
 
     blur = cv2.GaussianBlur(gray, (11, 11), 0)
     canny = cv2.Canny(blur, 30, 150, 3)
-    pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
     score = pytesseract.image_to_string(canny,config='outputbase digits')
     return print(score)
 
