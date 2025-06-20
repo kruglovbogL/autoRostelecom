@@ -11,48 +11,53 @@ from pywinauto.mouse import click, press
 from pywinauto.keyboard import send_keys
 from auto_laile import ReleaseKey,PressKey
 import time
-game_coords = [948, 752,1352, 753]
+game_coord = [948,752,1352,753]      #coordinate in window game
 
 def open_browser():
-    webbrowser.open('https://rt.habr.io/game')
-    time.sleep(3)
+    webbrowser.open('https://rt.habr.io/game')   #open website
+    time.sleep(2)
 
 def clicked():
-    click(button='left', coords=(908, 673)), (
-        click(button='left', coords=(927, 721)))  # coordinate cursor button
-    click(button='left', coords=(939, 590)), (
-        click(button='left', coords=(846, 712)))  # coordinate cursor button
+    click(button='left', coords=(908, 673)), (click(button='left', coords=(927, 721)))  # coordinate cursor button
+    click(button='left', coords=(939, 590)), (click(button='left', coords=(846, 712)))  # coordinate cursor button
 
 def jump():
     # pyautogui.press('space')
     # time.sleep(0.1)  # Небольшая задержка между нажатиями
-    keyboard = Controller()
-    keyboard.press(Key.space)
-    time.sleep(1)
-    keyboard.release(Key.space)
-    # KEYS = 0x39
-    # PressKey(KEYS)
-    # time.sleep(0.1)
-    # ReleaseKey(KEYS)
-    # time.sleep(1)
-    # with open('log.txt', 'a') as f, redirect_stdout(f):
+    # keyboard = Controller()        #load class Controller
+    # keyboard.press(Key.space)      #press Key
+    # time.sleep(1)                  #sleep
+    # keyboard.release(Key.space)    #release key
+    KEYS = 0x39                            #alternative
+    PressKey(KEYS)                         #  keys
+    time.sleep(1)                        # insert
+    ReleaseKey(KEYS)                       # game
+    time.sleep(1)                          #sleep
+    # with open('log.txt', 'a') as f, redirect_stdout(f):   #save output in log files
     #     print('Done!!!!!!!',file=f)
 
 class Auto_Game():
+    def auto_clicked(self):
+        while True:
+            clicked()              #click def mouse
+            time.sleep(5)
     def auto_game(self):
         while True:
-            clicked()
-            screen = np.array(ImageGrab.grab(bbox=game_coords))
-            low_red = (255,45,45)
-            high_red = (255,45,45)
-            red_error = cv2.inRange(screen, low_red,high_red)
-            # print(red_error)
-            if (red_error[0] == 255).any():
-                jump()
+            screen = np.array(ImageGrab.grab(bbox=game_coord))    #np.array screenshot
+            low_red = (255, 45, 45)
+            high_red = (255, 45, 45)
+            red_error = cv2.inRange(screen, low_red, high_red)    #search pixel color
+            # cv2.imshow('Read',red_error)            #read and write img in files
+            # cv2.imwrite('output.jpg',red_error)     #write img in files
+            # cv2.destroyAllWindows()                 #close window
+            # print(red_error)                        #check array
+            if (max(red_error[0])==255).any():
+                jump()                                #jump def button
             else:
-                time.sleep(0.1)
+                time.sleep(0.1)                       #sleeping
 
 if __name__ == '__main__':
-    open_browser()
-    button = Auto_Game()
-    button.auto_game()
+    open_browser()                                    #def browser
+    button = Auto_Game()                           #class Auto_Game()
+    button.auto_clicked()                          # click while
+    button.auto_game()                               #Auto_Game.auto_game()
