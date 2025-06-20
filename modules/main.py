@@ -13,11 +13,11 @@ def get_img():
     print('Screen!!!!')
     screen_shot = screenshot.save("test.png")
     return screen_shot
-    # p.save("D:/Project_University/Auto_rostelecom/image/n.png")
+    # p.save("/image/n.pn")
 
     # region = (1208, 278, 1199, 0)
     # p = pyautogui.screenshot(region=region)
-    # p.save(r'D:\Project_University\Auto_rostelecom/image/test.png')
+    # p.save(r'image/test.png')
     # print('Screen!!!!')
 
 
@@ -33,7 +33,7 @@ def get_score():
 
     blur = cv2.GaussianBlur(gray, (11, 11), 0)
     canny = cv2.Canny(blur, 30, 150, 3)
-    pytesseract.pytesseract.tesseract_cmd = r'D:\Program Files\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
     score = pytesseract.image_to_string(canny,config='outputbase digits')
     return print(score)
 
