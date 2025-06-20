@@ -29,7 +29,7 @@ class Screentake():
             if len(main.send_keys()) ==  0x39:
                                                 # save screenshot
                 p = pyautogui.screenshot()
-                p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
+                p.save(r'image/n.png')
                 print('Screen!!!!')
                 time.sleep(1)
             else:
