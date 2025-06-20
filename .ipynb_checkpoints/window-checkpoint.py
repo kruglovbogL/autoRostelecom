@@ -29,7 +29,7 @@ print(len(z1))
 #             if len(np.array(but)) >  0:
 #                                                 # save screenshot
 #                 p = pyautogui.screenshot()
-#                 p.save(r'D:\Project_University\Auto_rostelecom/image/n.png')
+#                 p.save(r'image/n.png')
 #                 print('Screen!!!!')
 #                 time.sleep(10)
 #             else:
