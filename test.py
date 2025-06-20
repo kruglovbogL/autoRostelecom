@@ -11,7 +11,7 @@ from tempfile import TemporaryFile
 
 
 # Загрузка изображения
-image_path = 'D:/Project_University/Auto_rostelecom/target.png'
+image_path = 'target.png'
 image = cv2.imread(image_path)
 
 # Проверка, загрузилось ли изображение
